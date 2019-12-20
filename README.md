@@ -21,3 +21,5 @@ captured packets are not included but can be retrieved
 find PCAP files with a `.pcap` file extension in a top-level folder named
 `pcap/`. By default the output is stored in a folder called `data/`; a
 compressed version of this folder with all the tables is included herein.
+A list of the non-standard libraries that must be installed in order to run
+this code can be found in `requirements.txt`.  
