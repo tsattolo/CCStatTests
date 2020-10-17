@@ -9,7 +9,8 @@ import library as lib
 import tabulate
 
 tests = lib.all_tests 
-rows = [lib.full_test_names[t] for t in tests]
+rows = [t.upper() for t in tests]
+# rows = [lib.full_test_names[t] for t in tests]
 variations = ['Y', 'N']
 
 def main():

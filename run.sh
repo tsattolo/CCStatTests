@@ -1,9 +1,10 @@
 #!/bin/bash
 
 base_folder='data/'
-table_format='simple'
+table_format='latex_raw'
 table_loc='tables/'
 frame_loc='dataframes/'
+filetype='tex'
 
 #Create carriers
 
@@ -31,8 +32,8 @@ run_internal () {
     ./inject.py -c $carrier -n $nbytes -i $iter -f $fieldsize -o $framefolder$nbytes'.df' &
     ./inject.py -c $carrier -n $nbytes -i $iter -f $fieldsize -o $framefolder$nbytes'E.df' --encrypt &
     wait
-    ./table.py -b $bit -t $table_format -d $framefolder$nbytes'E.df' $framefolder$nbytes'.df' -o $tablefolder$nbytes'eff.txt' &
-    ./table_corr.py -b $bit -t $table_format -d $framefolder$nbytes'.df' -o $tablefolder$nbytes'corr.txt' &
+    ./table.py -b $bit -t $table_format -d $framefolder$nbytes'E.df' $framefolder$nbytes'.df' -o $tablefolder$nbytes'eff.'$filetype &
+    ./table_corr.py -b $bit -t $table_format -d $framefolder$nbytes'.df' -o $tablefolder$nbytes'corr.'$filetype &
 }
 
 field='ip_id'
@@ -47,7 +48,7 @@ do
     dfs+=($framefolder$nbytes'.df') 
 done
 wait
-./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.txt' & 
+./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.'$filetype & 
 
 field='ip_ttl'
 fieldsize=8
@@ -61,7 +62,7 @@ do
     dfs+=($framefolder$nbytes'.df') 
 done
 wait
-./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.txt' & 
+./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector_1bit_trace.'$filetype & 
 
 field='tcp_isn1'
 fieldsize=32
@@ -75,7 +76,7 @@ do
     dfs+=($framefolder$nbytes'.df') 
 done
 wait
-./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.txt' & 
+./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.'$filetype & 
 
 field='tcp_isn2'
 fieldsize=32
@@ -89,4 +90,4 @@ do
     dfs+=($framefolder$nbytes'.df') 
 done
 wait
-./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.txt' & 
+./table_reg.py -b $bit -t $table_format  -n ${msg_sizes[*]} -d ${dfs[*]} -o $tablefolder'detector.'$filetype & 
