@@ -23,3 +23,12 @@ find PCAP files with a `.pcap` file extension in a top-level folder named
 compressed version of this folder with all the tables is included herein.
 A list of the non-standard libraries that must be installed in order to run
 this code can be found in `requirements.txt`.  
+
+There are also 3 files in the `graph/` folder that are used to generated graphs
+from the dataframes output by **inject.py**. These are not used in the original
+conference paper but are included in the subsequent thesis. The files in
+question are:
+
+* **graph_test.py**: Shows the effect sizes for different traces.
+* **graph_comb.py**: Shows correlations between different tests.
+* **graph_clust.py**: Shows predictions of a 2-D logistic regression detector.
