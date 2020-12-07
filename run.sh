@@ -1,10 +1,10 @@
 #!/bin/bash
 
 base_folder='data/'
-table_format='latex_raw'
+table_format='simple'
 table_loc='tables/'
 frame_loc='dataframes/'
-filetype='tex'
+filetype='txt'
 
 #Create carriers
 

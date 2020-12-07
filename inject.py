@@ -34,6 +34,7 @@ def main():
     parser.add_argument('-n', '--nbytes', type=int, default=1000)
     parser.add_argument('-j', '--jump', type=int, default=1)
     parser.add_argument('-f', '--field_size', type=int, default=16)
+    parser.add_argument('-s', '--save_traces')
     parser.add_argument('--encrypt', action='store_true')
     parser.add_argument('--eq_space', action='store_true')
     args = parser.parse_args()
@@ -76,9 +77,14 @@ def main():
     #Covert field size from bits to bytes
     field_bytes = int(math.ceil(args.field_size / 8))
     res_dict = {t:[] for t in tests}
+    all_traces = [[] for _ in range(args.field_size + 1)]
     for i in range(args.iterations):
         #Embed covert info
         traces = inject(args.field_size, real_id_iter[i], bits, jumps, eq_space=args.eq_space)
+        if args.save_traces:
+            for a, t in zip(all_traces, traces):
+                a.append(t)
+
         
         #Perform tests
         add_test(res_dict, 'lzma', check_compress, traces, field_bytes)
@@ -99,6 +105,11 @@ def main():
     df_dict = dict([(k, pd.DataFrame(v).T) for k, v in res_dict.items()])
     df = pd.concat(df_dict).T
     df.to_pickle(args.output)
+
+    #Output traces
+    if args.save_traces:
+        with open(args.save_traces, 'wb') as f:
+            pkl.dump(all_traces, f)
     
 def inject(field_size, carrier, message_bits, jumps, whole_carrier=True, eq_space=False):
     traces = []
